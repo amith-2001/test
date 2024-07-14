@@ -1,28 +1,19 @@
-from flask import Flask, render_template, redirect, url_for
-from pymongo import MongoClient
-from bson.objectid import ObjectId
+import tempfile
+import flask
+from flask import Flask
 
 app = Flask(__name__)
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def hello_world():
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        temp_file.write(b'Hello, World!')
 
-@app.route('/fetch-image', methods=['POST'])
-def fetch_image():
-    url = "mongodb+srv://sohanmahadev:Sohan%40123@cluster0.gachc3t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    client = MongoClient(url)
-    db = client['ImageDB']
-    collection = db['Images']
-    image_id = '669384c29d641b645995cd89'
-    image_document = collection.find_one({'_id': ObjectId(image_id)})
+    # Get the temporary file path
+    temp_file_path = temp_file.name
 
-    if image_document and 'image' in image_document:
-        with open('output_image.png', 'wb') as f:
-            f.write(image_document['image'])
-        return "Image fetched and written to 'output_image.png'"
-    else:
-        return "Image not found in the database"
+    # print(f'Temporary file path: {temp_file_path}')
+    return temp_file_path
 
 if __name__ == '__main__':
     app.run(debug=True)
