@@ -4,7 +4,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/fetch')
 def hello_world():
     with tempfile.NamedTemporaryFile(delete=False) as temp_file:
         temp_file.write(b'Hello, World!')
