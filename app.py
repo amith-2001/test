@@ -10,7 +10,7 @@ def index():
 
 @app.route('/fetch-image', methods=['POST'])
 def fetch_image():
-    url = "your_mongodb_connection_string"
+    url = "mongodb+srv://sohanmahadev:Sohan%40123@cluster0.gachc3t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     client = MongoClient(url)
     db = client['ImageDB']
     collection = db['Images']
